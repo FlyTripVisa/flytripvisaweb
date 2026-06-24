@@ -16,7 +16,7 @@
 
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "flytripvisaweb-assistant",
+  "name": "flytripvisa-assistant",
   "main": "src/index.js",
   "compatibility_date": "2026-06-24",
   "compatibility_flags": ["nodejs_compat"],
@@ -33,4 +33,3 @@
     }
   ]
 }
-
