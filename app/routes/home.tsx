@@ -1,4 +1,3 @@
-// app/routes/home.tsx
 import { useState } from "react";
 
 export default function Home() {
@@ -9,12 +8,14 @@ export default function Home() {
   const sendMessage = async () => {
     if (!input.trim()) return;
     
-    const userMessage = { role: "user", content: input };
-    setMessages((prev) => [...prev, userMessage]);
+    // ইউজার মেসেজ সেট করা
+    const userMsg = { role: "user", content: input };
+    setMessages(prev => [...prev, userMsg]);
     setInput("");
     setLoading(true);
 
     try {
+      // আপনার তৈরি করা api/chat এন্ডপয়েন্টে রিকোয়েস্ট পাঠানো
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -22,46 +23,43 @@ export default function Home() {
       });
       
       const data = await res.json();
-      
-      setMessages((prev) => [...prev, { role: "ai", content: data.response }]);
+      setMessages(prev => [...prev, { role: "ai", content: data.response }]);
     } catch (error) {
-      console.error("Error:", error);
-      setMessages((prev) => [...prev, { role: "ai", content: "Error connecting to AI." }]);
+      setMessages(prev => [...prev, { role: "ai", content: "Error: AI not responding." }]);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div style={{ padding: "20px", color: "white", backgroundColor: "#0f172a", minHeight: "100vh" }}>
-      <h1>FlyTripVisa Assistant</h1>
+    <div style={{ padding: "20px", fontFamily: "sans-serif", maxWidth: "600px", margin: "0 auto" }}>
+      <h2>FlyTripVisa AI Assistant</h2>
       
-      <div style={{ height: "300px", overflowY: "auto", border: "1px solid #334155", marginBottom: "10px", padding: "10px", borderRadius: "8px" }}>
+      {/* চ্যাট উইন্ডো */}
+      <div style={{ height: "400px", border: "1px solid #ccc", overflowY: "auto", padding: "10px", marginBottom: "10px", borderRadius: "8px" }}>
         {messages.map((m, i) => (
-          <div key={i} style={{ marginBottom: "10px" }}>
-            <strong style={{ color: m.role === "user" ? "#38bdf8" : "#fbbf24" }}>
-              {m.role === "user" ? "You: " : "AI: "}
-            </strong>
-            {m.content}
+          <div key={i} style={{ marginBottom: "10px", textAlign: m.role === "user" ? "right" : "left" }}>
+            <div style={{ display: "inline-block", padding: "8px", borderRadius: "8px", backgroundColor: m.role === "user" ? "#007bff" : "#e9ecef", color: m.role === "user" ? "white" : "black" }}>
+              {m.content}
+            </div>
           </div>
         ))}
-        {loading && <div>Thinking...</div>}
+        {loading && <p>Thinking...</p>}
       </div>
 
-      <input 
-        value={input} 
-        onChange={(e) => setInput(e.target.value)} 
-        onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
-        placeholder="Ask about visas..."
-        style={{ padding: "10px", width: "70%", borderRadius: "5px", color: "black" }}
-      />
-      <button 
-        onClick={sendMessage} 
-        disabled={loading} 
-        style={{ padding: "10px 20px", marginLeft: "10px", cursor: "pointer" }}
-      >
-        {loading ? "Sending..." : "Send"}
-      </button>
+      {/* ইনপুট এরিয়া */}
+      <div style={{ display: "flex" }}>
+        <input 
+          value={input} 
+          onChange={(e) => setInput(e.target.value)} 
+          onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
+          placeholder="Visa related query..."
+          style={{ flex: 1, padding: "10px" }}
+        />
+        <button onClick={sendMessage} disabled={loading} style={{ padding: "10px 20px" }}>
+          Send
+        </button>
+      </div>
     </div>
   );
 }
