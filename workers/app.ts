@@ -21,3 +21,22 @@ export default {
 		});
 	},
 } satisfies ExportedHandler<Env>;
+// app/workers/app.ts
+export interface Env {
+  AI: any; // Cloudflare Workers AI binding
+}
+
+export default {
+  async fetch(request: Request, env: Env) {
+    const { prompt } = await request.json();
+    
+    // Cloudflare Workers AI লজিক
+    const response = await env.AI.run('@cf/meta/llama-3-8b-instruct', {
+      prompt: prompt,
+    });
+
+    return new Response(JSON.stringify(response), {
+      headers: { 'Content-Type': 'application/json' },
+    });
+  },
+};
