@@ -1,0 +1,25 @@
+FlyTripVisa.site (React Structure)
+│
+├── 📂 app/
+│   ├── 📂 routes/
+│   │   ├── 📄 home.tsx (Main Homepage & Dashboard)
+│   │   ├── 📄 chat.tsx (AI Chat Interface)
+│   │   ├── 📄 admin.tsx (Management Panel)
+│   │   └── 📄 welcome.tsx (Entry/Login)
+│   ├── 📄 root.tsx (Global Layout & Navigation)
+│   └── 📄 app.css (Main Styles)
+│
+├── 📂 public/
+│   └── 📂 assets/
+│       ├── 📂 images/
+│       │   ├── 📂 flags/ (14 country SVG files)
+│       │   └── 📂 payment/ (Alipay, WeChat icons)
+│
+├── 📂 workers/
+│   ├── 📄 app.ts (Worker Logic)
+│   ├── 📄 chat.ts (AI Integration)
+│   └── 📄 payment.ts (Payment Handler)
+│
+├── 📜 wrangler.json
+├── 📜 package.json
+└── 📜 README.md
