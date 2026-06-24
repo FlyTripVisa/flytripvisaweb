@@ -1,5 +1,6 @@
 FlyTripVisa.site (React Structure)
 │
+├── Admin-Workers-AI (including configuration WeChat Telegram and chat interface )
 ├── 📂 app/
 │   ├── 📂 routes/
 │   │   ├── 📄 home.tsx (Main Homepage & Dashboard)
