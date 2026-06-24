@@ -13,7 +13,11 @@
 	}
 }
 "ai": { "binding": "AI" }
-
+{
+  "analytics_engine_datasets": [
+    { "binding": "FlyTripVisa_DB", "dataset": "FlyTripVisa_DB" }
+  ]
+}
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "flytripvisa-assistant",
