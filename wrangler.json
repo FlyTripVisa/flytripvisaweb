@@ -14,3 +14,23 @@
 }
 "ai": { "binding": "AI" }
 
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "flytripvisaweb-assistant",
+  "main": "src/index.js",
+  "compatibility_date": "2026-06-24",
+  "compatibility_flags": ["nodejs_compat"],
+  "vars": {
+    "CF_ACCOUNT_ID": "b73b80fa62deef032d3c08248cf2f30b"
+  },
+  "ai": {
+    "binding": "AI"
+  },
+  "services": [
+    {
+      "binding": "AI_GATEWAY",
+      "service": "default"
+    }
+  ]
+}
+
