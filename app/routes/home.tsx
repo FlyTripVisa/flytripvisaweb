@@ -15,7 +15,6 @@ export default function Home() {
     setLoading(true);
 
     try {
-      // এটি সরাসরি api.chat.ts এর action ফাংশনকে হিট করবে
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -24,10 +23,10 @@ export default function Home() {
       
       const data = await res.json();
       
-      // AI এর রেসপন্স প্রসেস করা
       setMessages((prev) => [...prev, { role: "ai", content: data.response }]);
     } catch (error) {
       console.error("Error:", error);
+      setMessages((prev) => [...prev, { role: "ai", content: "Error connecting to AI." }]);
     } finally {
       setLoading(false);
     }
@@ -37,10 +36,12 @@ export default function Home() {
     <div style={{ padding: "20px", color: "white", backgroundColor: "#0f172a", minHeight: "100vh" }}>
       <h1>FlyTripVisa Assistant</h1>
       
-      <div style={{ height: "300px", overflowY: "auto", border: "1px solid #334155", marginBottom: "10px", padding: "10px" }}>
+      <div style={{ height: "300px", overflowY: "auto", border: "1px solid #334155", marginBottom: "10px", padding: "10px", borderRadius: "8px" }}>
         {messages.map((m, i) => (
           <div key={i} style={{ marginBottom: "10px" }}>
-            <strong>{m.role === "user" ? "You: " : "AI: "}</strong>
+            <strong style={{ color: m.role === "user" ? "#38bdf8" : "#fbbf24" }}>
+              {m.role === "user" ? "You: " : "AI: "}
+            </strong>
             {m.content}
           </div>
         ))}
@@ -50,11 +51,16 @@ export default function Home() {
       <input 
         value={input} 
         onChange={(e) => setInput(e.target.value)} 
+        onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
         placeholder="Ask about visas..."
-        style={{ padding: "10px", width: "70%", borderRadius: "5px" }}
+        style={{ padding: "10px", width: "70%", borderRadius: "5px", color: "black" }}
       />
-      <button onClick={sendMessage} disabled={loading} style={{ padding: "10px 20px" }}>
-        Send
+      <button 
+        onClick={sendMessage} 
+        disabled={loading} 
+        style={{ padding: "10px 20px", marginLeft: "10px", cursor: "pointer" }}
+      >
+        {loading ? "Sending..." : "Send"}
       </button>
     </div>
   );
