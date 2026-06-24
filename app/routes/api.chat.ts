@@ -1,22 +1,33 @@
-import { ActionFunctionArgs } from "react-router";
+import { ActionFunctionArgs } from "@remix-run/cloudflare";
+import { createAiGateway } from "ai-gateway-provider";
+import { createUnified } from "ai-gateway-provider/providers/unified";
+import { generateText } from "ai";
+
 export async function action({ request, context }: ActionFunctionArgs) {
-  // ক্লায়েন্ট থেকে আসা ডেটা গ্রহণ
-  const { prompt } = await request.json();
-
-  // Cloudflare Binding থেকে AI এক্সেস করা
-  // context.cloudflare.env.AI দিয়ে কনটেক্সট থেকে AI বাইন্ডিং পাওয়া যায়
-  const ai = context.cloudflare.env.AI;
-
   try {
-    const response = await ai.run('@cf/meta/llama-3-8b-instruct', {
-      messages: [
-        { role: "system", content: "You are a helpful travel assistant for FlyTripVisa." },
-        { role: "user", content: prompt }
-      ]
+    const { prompt } = await request.json();
+
+    // ক্লাউডফ্লেয়ার এনভায়রনমেন্ট থেকে ক্রেডেনশিয়াল লোড করা
+    const aigateway = createAiGateway({
+      accountId: context.cloudflare.env.CF_ACCOUNT_ID,
+      gateway: "default",
+      apiKey: context.cloudflare.env.CF_AIG_TOKEN,
     });
 
-    return Response.json(response);
+    const unified = createUnified();
+
+    // AI গেটওয়ের মাধ্যমে রেসপন্স জেনারেট করা
+    const { text } = await generateText({
+      model: aigateway(unified("dynamic/Qwen_ai")),
+      prompt: prompt,
+    });
+
+    return Response.json({ response: text });
   } catch (error) {
-    return Response.json({ error: "Failed to fetch AI response" }, { status: 500 });
+    console.error("AI API Error:", error);
+    return Response.json(
+      { error: "Failed to connect to AI Gateway" },
+      { status: 500 }
+    );
   }
 }
