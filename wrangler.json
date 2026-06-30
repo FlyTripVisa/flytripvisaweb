@@ -33,7 +33,7 @@
   "services": [
     {
       "binding": "AI_GATEWAY",
-      "service": "default"
+      "service": "flytripvisa-gateway"
     }
   ]
 }
