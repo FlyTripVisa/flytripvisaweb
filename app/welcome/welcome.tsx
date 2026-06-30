@@ -43,6 +43,7 @@ export function Welcome({ message }: { message: string }) {
 					</nav>
 				</div>
 			</div>
+<h1>fuvk</h1>
 		</main>
 	);
 }
