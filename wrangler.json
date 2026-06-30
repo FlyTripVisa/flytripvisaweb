@@ -9,7 +9,7 @@
 	},
 	"upload_source_maps": true,
 	"vars": {
-		"VALUE_FROM_CLOUDFLARE": "Hello from Cloudflare (FlyTripVisa)"
+		"VALUE_FROM_CLOUDFLARE": "Hello from Cloudflare (FlyTripVisa-Chat-AI)"
 	}
 }
 "ai": { "binding": "AI" }
